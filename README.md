@@ -2,7 +2,7 @@
 
 ### input
 ```
-param1：apk path, use absolute path
+param1：apk path
 param2：new package name
 ```
 
