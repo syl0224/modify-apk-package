@@ -3,11 +3,12 @@
 OUTPUT='test'
 MANIFEST_FILE='AndroidManifest.xml'
 SCRIPT_PATH=`pwd`
-APKTOOL_PATH=./apktool2
+APKTOOL=./apktool2
+AAPT=./aapt
 
 function get_old_package () {
     apk=$1
-    old_pack_name=`aapt dump badging $apk|grep package |awk '{print $2}'`
+    old_pack_name=`$AAPT dump badging $apk|grep package |awk '{print $2}'`
     old_pack_name=${old_pack_name:5}
     old_pack_name=${old_pack_name//"'"/""}
     echo $old_pack_name
@@ -18,7 +19,7 @@ function decompress_package() {
     echo 'apktool d apk -o test...'
     apk=$1
     rm -rf $OUTPUT
-    $APKTOOL_PATH d $apk -o $OUTPUT
+    $APKTOOL d $apk -o $OUTPUT
 }
 
 function modify_manifest() {
@@ -61,7 +62,7 @@ function modify_smali() {
 function compress_package() {
     pack_name=$1
     cd $SCRIPT_PATH
-    $APKTOOL_PATH b -d $OUTPUT -o $pack_name'.apk'
+    $APKTOOL b -d $OUTPUT -o $pack_name'.apk'
 }
 
 function sign_apk() {
